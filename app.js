@@ -1,4 +1,5 @@
 import "dotenv/config";
+import ffmpegPath from "ffmpeg-static";
 import { Client, GatewayIntentBits, SlashCommandBuilder, REST, Routes } from "discord.js";
 import {
   joinVoiceChannel,
@@ -7,6 +8,8 @@ import {
   AudioPlayerStatus,
   getVoiceConnection
 } from "@discordjs/voice";
+
+process.env.FFMPEG_PATH = ffmpegPath;
 
 const client = new Client({
   intents: [
