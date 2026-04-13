@@ -22,20 +22,15 @@ const users = {
   "895923987111100426" : { sound: "audio/short_ball.mp3", volume : 0.015},
   "317735170905997342" : { sound: "audio/piccolo.mp3", volume : 0.015},
   "528083206940131348" : { sound: "audio/goon.mp3", volume : 0.1},
-  "692934165552955392" : { sound: "audio/prowler.mp3", volume : 0.015},
+  "692934165552955392" : { sound: "audio/monkey.mp3", volume : 0.015},
   "229459112629501962" : { sound: "audio/big_d.mp3", volume : 0.015},
-  "281809317013880834" : { sound: "audio/chest_open.mp3", volume : 0.015},
+  "281809317013880834" : { sound: "audio/on_sight.mp3", volume : 0.015},
   "425424429322076162" : { sound: "audio/rizz.mp3", volume : 0.015},
 };
 
 const player = createAudioPlayer();
 
 client.on("voiceStateUpdate", async (oldState, newState) => {
-  if (newState.id === process.env.EVIL_ID && newState.channelId) {
-    newState.member.voice.disconnect();
-    return;
-  }
-
   if (!users[newState.id]) return;
 
   const { sound, volume } = users[newState.id];
