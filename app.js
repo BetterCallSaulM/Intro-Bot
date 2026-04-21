@@ -1,6 +1,6 @@
 import "dotenv/config";
 import ffmpegPath from "ffmpeg-static";
-import { Client, GatewayIntentBits, SlashCommandBuilder, REST, Routes } from "discord.js";
+import { Client, GatewayIntentBits, SlashCommandBuilder, REST, Routes, TextChannel, MembershipScreeningFieldType, Message } from "discord.js";
 import {
   joinVoiceChannel,
   createAudioPlayer,
@@ -22,7 +22,7 @@ const users = {
   "895923987111100426" : { sound: "audio/short_ball.mp3", volume : 0.015},
   "317735170905997342" : { sound: "audio/piccolo.mp3", volume : 0.015},
   "528083206940131348" : { sound: "audio/goon.mp3", volume : 0.1},
-  "692934165552955392" : { sound: "audio/monkey.mp3", volume : 0.015},
+  "692934165552955392" : { sound: "audio/naruto.mp3", volume : 0.1},
   "229459112629501962" : { sound: "audio/big_d.mp3", volume : 0.015},
   "281809317013880834" : { sound: "audio/on_sight.mp3", volume : 0.015},
   "425424429322076162" : { sound: "audio/rizz.mp3", volume : 0.015},
@@ -50,6 +50,19 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
 
     const resource = createAudioResource(sound, {inlineVolume: true});
     resource.volume.setVolume(volume);
+
+    if (newState.id == 317735170905997342) {
+      const userIds = channel.members
+        .filter(member => member.user.id !== 317735170905997342 && !member.user.bot)
+        .map(member => member.user.id);
+      
+      const gameChat = await client.channels.fetch("1062964273791381544");
+      const message = userIds.map(id => `<@${id}>`).join(" ");
+
+      gameChat.send(message);
+      gameChat.send("https://tenor.com/view/piccolo-aura-piccolo-aura-aura-farming-aura-farm-gif-4796219510675252498");
+    }
+
     player.play(resource);
     connection.subscribe(player);
 
@@ -83,7 +96,7 @@ client.on("interactionCreate", async (interaction) => {
     }
 
     const player = createAudioPlayer();
-    const resource = createAudioResource("outro.mp3", { inlineVolume: true });
+    const resource = createAudioResource("audio/outro.mp3", { inlineVolume: true });
     resource.volume.setVolume(0.02);
 
     player.play(resource);
